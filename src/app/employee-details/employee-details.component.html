@@ -1,0 +1,91 @@
+<section class='details-container'>
+    <div class="header">
+        <div class="heading">Details</div>
+        <div class="options">
+            <div  *ngIf="!editMode" (click)="setEditMode()">Edit</div>
+            <div *ngIf="!editMode" (click)="onAbout()">About</div>
+            <div *ngIf="editMode" (click)="setEditMode()">Save</div>
+        </div>
+    </div>
+
+    <ng-template [ngIf]="!editMode" [ngIfElse]="editScreen">
+        <div class="attributes">
+            <span class="attribute">Employee Id</span>
+            <span>{{employee?.id}}</span>
+        </div>
+        <div class="attributes">
+            <span class="attribute">Name</span>
+            <span>{{employee?.name}}</span>
+        </div>
+
+        <div class="attributes">
+            <span class="attribute">Age</span>
+            <span>{{employee?.age}}</span>
+        </div>
+
+        <div class="attributes">
+            <span class="attribute">Address</span>
+            <span>{{employee?.address}}</span>
+        </div>
+
+        <div class="attributes">
+            <span class="attribute">Department</span>
+            <span>{{employee?.department?.name}}</span>
+        </div>
+
+        <div class="attributes">
+            <span class="attribute">Phone Numbers</span>
+            <!-- <span *ngFor="let ph of employee?.phoneList.number">{{ph}}</span> -->
+            <span>{{employee?.phoneList.number}}</span>
+        </div>
+     </ng-template>
+
+     <ng-template #editScreen>
+        <div class='details' [formGroup]='employeeForm'>
+            <mat-form-field appearance="outline">
+                <mat-label>Employee Id (readonly)</mat-label>
+                <input matInput readonly formControlName='id' required>
+            </mat-form-field>
+    
+            <mat-form-field appearance="outline">
+                <mat-label>Employee Name</mat-label>
+                <input matInput formControlName='name' required>
+            </mat-form-field>
+    
+            <mat-form-field appearance="outline">
+                <mat-label>Age</mat-label>
+                <input matInput formControlName='age' required>
+            </mat-form-field>
+    
+            <mat-form-field appearance="outline">
+                <mat-label>Address</mat-label>
+                <input matInput formControlName='address' required>
+            </mat-form-field>
+    
+            <mat-form-field appearance="outline">
+                <mat-label>Department</mat-label>
+                <mat-select formControlName='department' required>
+                    <mat-option *ngFor="let dept of deptList$ | async" [value]="dept.id">{{dept.name}}</mat-option>
+                </mat-select>
+                <mat-error>Please select a valid department</mat-error>
+            </mat-form-field>
+    
+            <div formArrayName="phone">
+                <div *ngFor="let ph of phones?.controls, let i = index">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Phone</mat-label>
+                        <input matInput [formControlName]='i' required>
+                        <mat-error>Please enter a valid phone number</mat-error>
+                    </mat-form-field>
+    
+                    <mat-icon (click)="onDeletePhone(i)">remove</mat-icon>
+                </div>
+            </div>
+            <div >
+                Add Phone number
+                <mat-icon (click)="onAddPhone()">add</mat-icon>
+            </div>
+        </div>
+     </ng-template>
+    
+</section>

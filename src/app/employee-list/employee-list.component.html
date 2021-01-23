@@ -1,0 +1,12 @@
+<section class="list-container">
+    <div class="header">Employee List</div>
+    <div class="tab">
+        <button 
+            class="tablinks" 
+            *ngFor="let employee of employeeList" 
+            (click)="selectedEmployee(employee)"
+            [ngClass]="{active: employee.id===selectedId}" >
+        {{employee.name}}
+        </button>
+    </div>
+</section>

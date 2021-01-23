@@ -1,0 +1,12 @@
+<section class="main-container">
+    <div class="list">
+        <app-employee-list 
+        [employeeList]= "employeeList$ | async"
+        (employeeSelected)="getSelected($event)"></app-employee-list>
+    </div>
+    <div class="gap"></div>
+    <div class="content">
+        <app-employee-details [employee]="selectedEmployee"></app-employee-details>
+    </div>
+</section>
+
